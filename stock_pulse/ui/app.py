@@ -87,6 +87,28 @@ def display_stock_analysis(ticker: str, result: dict):
             for risk in result.get('risks', []):
                 st.markdown(f"• {risk}")
         
+        # Display recent news
+        if 'news' in result and result['news']:
+            st.markdown("**Recent News:**")
+            
+            # Filter out news items with missing data
+            valid_news = [article for article in result['news'] 
+                         if article.get('title') and article.get('publisher')]
+            
+            if valid_news:
+                # Display news in an expandable section
+                with st.expander("View Recent News", expanded=True):
+                    for i, article in enumerate(valid_news):
+                        st.markdown(f"**{i+1}. [{article['title']}]({article['link']})**")
+                        st.caption(f"{article['published']} - {article['publisher']}")
+                        st.caption(f"URL: {article['link']}")
+                        if i < len(valid_news) - 1:
+                            st.markdown("---")
+            else:
+                st.info("No recent news available.")
+        else:
+            st.info("No recent news available.")
+        
         st.markdown("---")
     else:
         st.error(f"**Error analyzing {ticker}:** {result.get('error', 'Unknown error')}")

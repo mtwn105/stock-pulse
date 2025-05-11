@@ -91,6 +91,31 @@ def display_results(results: dict):
             for risk in result.get('risks', []):
                 console.print(f"  • {risk}")
             
+            # Display recent news
+            if 'news' in result and result['news']:
+                console.print("\n[bold]Recent News:[/bold]")
+                news_table = Table(show_header=True, header_style="bold", box=box.SIMPLE)
+                news_table.add_column("Date", style="cyan", width=12)
+                news_table.add_column("Source", style="magenta", width=15)
+                news_table.add_column("Title", style="white")
+                news_table.add_column("URL", style="blue")
+                
+                for article in result['news']:
+                    if article.get('title') and article.get('publisher'):  # Only show articles with valid data
+                        news_table.add_row(
+                            article.get('published', 'N/A'),
+                            article.get('publisher', 'N/A'),
+                            article.get('title', 'N/A'),
+                            article.get('link', 'N/A')
+                        )
+                
+                if news_table.row_count > 0:
+                    console.print(news_table)
+                else:
+                    console.print("  No recent news available.")
+            else:
+                console.print("\n[bold]Recent News:[/bold] No news available.")
+            
             console.print("─" * 80)
     
     # Display disclaimer

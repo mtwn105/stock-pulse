@@ -62,12 +62,59 @@ def get_stock_data(ticker: str, period: str = "1y") -> Dict[str, Any]:
         processed_news = []
         
         for article in news[:5]:  # Limit to 5 most recent news
-            processed_news.append({
-                'title': article.get('title', ''),
-                'publisher': article.get('publisher', ''),
-                'link': article.get('link', ''),
-                'published': datetime.fromtimestamp(article.get('providerPublishTime', 0)).strftime('%Y-%m-%d')
-            })
+            try:
+                # Skip None items
+                if article is None:
+                    continue
+                    
+                # Extract data from the content dictionary if available
+                if 'content' in article:
+                    content = article['content']
+                    title = content.get('title', 'No title available')
+                    
+                    # Get publisher from provider if available
+                    provider = content.get('provider', {})
+                    publisher = provider.get('displayName', 'Unknown source')
+                    
+                    # Get link from clickThroughUrl if available
+                    click_url = content.get('clickThroughUrl', {})
+                    link = click_url.get('url', '#')
+                    
+                    # Get publication date
+                    pub_date = content.get('pubDate', '')
+                    if pub_date:
+                        # Format is like '2025-05-10T20:45:00Z'
+                        try:
+                            # Parse ISO format date
+                            dt = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
+                            published = dt.strftime('%Y-%m-%d')
+                        except ValueError:
+                            published = 'N/A'
+                    else:
+                        published = 'N/A'
+                else:
+                    # Fallback to the old method
+                    title = article.get('title', 'No title available')
+                    publisher = article.get('publisher', 'Unknown source')
+                    link = article.get('link', '#')
+                    
+                    # Handle the timestamp
+                    timestamp = article.get('providerPublishTime', 0)
+                    if timestamp > 0:
+                        published = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
+                    else:
+                        published = 'N/A'
+                
+                processed_news.append({
+                    'title': title,
+                    'publisher': publisher,
+                    'link': link,
+                    'published': published
+                })
+            except Exception as e:
+                # Skip problematic news items but log the error
+                print(f"Error processing news item: {str(e)}")
+                continue
             
         return {
             'metrics': metrics,
