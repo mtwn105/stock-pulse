@@ -2,6 +2,8 @@
 
 Feel the pulse of the market with AI-powered stock insights.
 
+Vibe Coded with Amazon Q Developer CLI in 1 hour!
+
 ## Overview
 
 Stock Pulse is a Python tool that analyzes stocks using financial metrics, news trends, and AI-powered sentiment analysis. It provides investment recommendations (BUY, SELL, HOLD) with detailed reasoning based on comprehensive analysis.
