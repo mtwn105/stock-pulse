@@ -140,6 +140,11 @@ def display_stock_analysis(ticker: str, result: dict):
                     for i, article in enumerate(valid_news):
                         st.markdown(f"**{i+1}. [{article['title']}]({article['link']})**")
                         st.caption(f"{article['published']} - {article['publisher']}")
+                        
+                        # Display summary if available
+                        if article.get('summary'):
+                            st.markdown(f"*{article['summary']}*")
+                            
                         st.caption(f"URL: {article['link']}")
                         if i < len(valid_news) - 1:
                             st.markdown("---")

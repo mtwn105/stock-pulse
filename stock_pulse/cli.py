@@ -138,6 +138,14 @@ def display_results(results: dict):
                             article.get('title', 'N/A'),
                             article.get('link', 'N/A')
                         )
+                        
+                        # If there's a summary, show it under the article
+                        if article.get('summary'):
+                            summary = article.get('summary')
+                            # Truncate long summaries
+                            if len(summary) > 200:
+                                summary = summary[:197] + "..."
+                            console.print(f"  [dim]{summary}[/dim]")
                 
                 if news_table.row_count > 0:
                     console.print(news_table)

@@ -32,6 +32,9 @@ def format_news(news_items: List[Dict[str, str]]) -> str:
     formatted_news = ""
     for i, item in enumerate(news_items, 1):
         formatted_news += f"{i}. {item['title']} ({item['published']} - {item['publisher']})\n"
+        if item.get('summary'):
+            formatted_news += f"   Summary: {item['summary']}\n"
+        formatted_news += "\n"
     
     return formatted_news
 

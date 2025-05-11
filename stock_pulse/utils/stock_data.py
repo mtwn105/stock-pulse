@@ -71,15 +71,18 @@ def get_stock_data(ticker: str, period: str = "1y") -> Dict[str, Any]:
                 if 'content' in article:
                     content = article['content']
                     title = content.get('title', 'No title available')
-
+                    
+                    # Get summary if available
+                    summary = content.get('summary', '')
+                    
                     # Get publisher from provider if available
                     provider = content.get('provider', {})
                     publisher = provider.get('displayName', 'Unknown source')
-
+                    
                     # Get link from clickThroughUrl if available
                     click_url = content.get('clickThroughUrl', {})
                     link = click_url.get('url', '#')
-
+                    
                     # Get publication date
                     pub_date = content.get('pubDate', '')
                     if pub_date:
@@ -95,18 +98,20 @@ def get_stock_data(ticker: str, period: str = "1y") -> Dict[str, Any]:
                 else:
                     # Fallback to the old method
                     title = article.get('title', 'No title available')
+                    summary = article.get('summary', '')
                     publisher = article.get('publisher', 'Unknown source')
                     link = article.get('link', '#')
-
+                    
                     # Handle the timestamp
                     timestamp = article.get('providerPublishTime', 0)
                     if timestamp > 0:
                         published = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
                     else:
                         published = 'N/A'
-
+                
                 processed_news.append({
                     'title': title,
+                    'summary': summary,
                     'publisher': publisher,
                     'link': link,
                     'published': published
