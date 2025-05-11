@@ -126,6 +126,7 @@ def analyze_stock(ticker_data: Dict[str, Any]) -> Dict[str, Any]:
             'key_factors': analysis.key_factors,
             'risks': analysis.risks,
             'news': ticker_data['news'],  # Include the news articles in the result
+            'metrics': metrics,  # Include all financial metrics
             'success': True
         }
     except Exception as e:

@@ -83,8 +83,38 @@ def display_results(results: dict):
             console.print(f"[bold]Signal:[/bold] {result['signal']}")
             console.print(f"[bold]Reasoning:[/bold] {result['reasoning']}")
             
+            # Display financial metrics
+            if 'metrics' in result:
+                console.print("\n[bold]Financial Metrics:[/bold]")
+                metrics_table = Table(show_header=True, header_style="bold", box=box.SIMPLE)
+                metrics_table.add_column("Metric", style="cyan")
+                metrics_table.add_column("Value", style="white")
+                
+                metrics = result['metrics']
+                
+                # Add key financial metrics to the table
+                metrics_table.add_row("Current Price", f"${metrics.get('current_price', 'N/A')}")
+                metrics_table.add_row("Target Price", f"${metrics.get('target_price', 'N/A')}")
+                metrics_table.add_row("Target Upside", f"{metrics.get('target_upside', 'N/A')}%")
+                metrics_table.add_row("1-Year Return", f"{metrics.get('yearly_return', 'N/A')}%")
+                metrics_table.add_row("P/E Ratio", f"{metrics.get('pe_ratio', 'N/A')}")
+                metrics_table.add_row("Forward P/E", f"{metrics.get('forward_pe', 'N/A')}")
+                metrics_table.add_row("PEG Ratio", f"{metrics.get('peg_ratio', 'N/A')}")
+                metrics_table.add_row("Price-to-Book", f"{metrics.get('price_to_book', 'N/A')}")
+                metrics_table.add_row("Dividend Yield", f"{metrics.get('dividend_yield', 'N/A')}%")
+                metrics_table.add_row("EPS", f"${metrics.get('eps', 'N/A')}")
+                metrics_table.add_row("ROE", f"{metrics.get('roe', 'N/A')}%")
+                metrics_table.add_row("ROA", f"{metrics.get('roa', 'N/A')}%")
+                metrics_table.add_row("Debt-to-Equity", f"{metrics.get('debt_to_equity', 'N/A')}")
+                metrics_table.add_row("Quick Ratio", f"{metrics.get('quick_ratio', 'N/A')}")
+                metrics_table.add_row("Current Ratio", f"{metrics.get('current_ratio', 'N/A')}")
+                metrics_table.add_row("Analyst Recommendation", f"{metrics.get('recommendation', 'N/A')}")
+                
+                console.print(metrics_table)
+            
             console.print("[bold]Key Factors:[/bold]")
             for factor in result.get('key_factors', []):
+                console.print(f"  • {factor}")
                 console.print(f"  • {factor}")
                 
             console.print("[bold]Risks:[/bold]")

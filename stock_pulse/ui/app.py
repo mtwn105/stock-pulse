@@ -72,6 +72,45 @@ def display_stock_analysis(ticker: str, result: dict):
         st.markdown("**Reasoning:**")
         st.write(result['reasoning'])
         
+        # Display financial metrics
+        if 'metrics' in result:
+            st.markdown("**Financial Metrics:**")
+            
+            metrics = result['metrics']
+            
+            # Create a two-column layout for metrics
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                metrics_data1 = {
+                    "Current Price": f"${metrics.get('current_price', 'N/A')}",
+                    "Target Price": f"${metrics.get('target_price', 'N/A')}",
+                    "Target Upside": f"{metrics.get('target_upside', 'N/A')}%",
+                    "1-Year Return": f"{metrics.get('yearly_return', 'N/A')}%",
+                    "P/E Ratio": f"{metrics.get('pe_ratio', 'N/A')}",
+                    "Forward P/E": f"{metrics.get('forward_pe', 'N/A')}",
+                    "PEG Ratio": f"{metrics.get('peg_ratio', 'N/A')}",
+                    "Price-to-Book": f"{metrics.get('price_to_book', 'N/A')}"
+                }
+                
+                for metric, value in metrics_data1.items():
+                    st.markdown(f"**{metric}:** {value}")
+            
+            with col2:
+                metrics_data2 = {
+                    "Dividend Yield": f"{metrics.get('dividend_yield', 'N/A')}%",
+                    "EPS": f"${metrics.get('eps', 'N/A')}",
+                    "ROE": f"{metrics.get('roe', 'N/A')}%",
+                    "ROA": f"{metrics.get('roa', 'N/A')}%",
+                    "Debt-to-Equity": f"{metrics.get('debt_to_equity', 'N/A')}",
+                    "Quick Ratio": f"{metrics.get('quick_ratio', 'N/A')}",
+                    "Current Ratio": f"{metrics.get('current_ratio', 'N/A')}",
+                    "Analyst Recommendation": f"{metrics.get('recommendation', 'N/A')}"
+                }
+                
+                for metric, value in metrics_data2.items():
+                    st.markdown(f"**{metric}:** {value}")
+        
         # Create two columns for key factors and risks
         col1, col2 = st.columns(2)
         
