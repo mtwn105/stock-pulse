@@ -1,6 +1,6 @@
 # Stock Pulse
 
-Feel the pulse of the market—analyze stocks with news trends and emotional tone.
+Feel the pulse of the market with AI-powered stock insights.
 
 ## Overview
 
@@ -13,6 +13,7 @@ Stock Pulse is a Python tool that analyzes stocks using financial metrics, news 
 - Utilize OpenAI's GPT-4o-mini model for intelligent analysis
 - Generate investment signals with detailed reasoning
 - Identify key factors and potential risks
+- Command-line interface and Streamlit web UI
 
 ## Installation
 
@@ -35,6 +36,8 @@ Stock Pulse is a Python tool that analyzes stocks using financial metrics, news 
 
 ## Usage
 
+### Command Line Interface
+
 Analyze stocks using the command line:
 
 ```bash
@@ -48,6 +51,16 @@ poetry run python main.py AAPL MSFT GOOGL AMZN
 poetry run python main.py AAPL MSFT --json
 ```
 
+### Streamlit Web UI
+
+Run the Streamlit web interface:
+
+```bash
+poetry run streamlit run streamlit_app.py
+```
+
+Then open your browser to the URL shown in the terminal (typically http://localhost:8501).
+
 ## Project Structure
 
 ```
@@ -57,8 +70,10 @@ stock-pulse/
 │   ├── models/         # LLM models
 │   ├── utils/          # Utility functions
 │   ├── config/         # Configuration
+│   ├── ui/             # Streamlit UI
 │   └── cli.py          # Command-line interface
-├── main.py             # Entry point
+├── main.py             # CLI entry point
+├── streamlit_app.py    # Streamlit entry point
 ├── pyproject.toml      # Poetry configuration
 └── README.md           # Documentation
 ```
